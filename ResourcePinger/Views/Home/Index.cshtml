@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Ping a website</p>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-lg-4">
+        <input class="urlBox form-control" placeholder="URL here"/>
+        <br/>
+        <a class="btn btn-info" onclick="pingUri()">Ping</a> |
+        <a class="btn btn-secondary" onclick="BrowsePage()">View URL</a>
+        <p class="error-msg"></p>
+        <fieldset>
+            <legend>
+                Ping Results
+            </legend>
+            <ul class="result-list">
+            </ul>
+        </fieldset>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-lg-4">
+        <embed class="viewPanel" />
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        function pingUri() {
+            var caller = new Service();
+            if (document.querySelector(".control")) {
+                return;
+            }
+            caller.get("/Home/Check?q=" + document.querySelector(".urlBox").value, function (data) {
+
+                document.querySelector(".error-msg").replaceChildren();
+                let item = document.createElement("li"), list = document.querySelector("ul.result-list");
+                item.textContent = document.querySelector(".urlBox").value+" Status: " + data.isSuccessful + " at " + data.returnedAtUtc;
+                list.appendChild(item);
+            }, function (e) {
+                document.querySelector(".error-msg").innerHTML = ("Ping Not Sucessful");
+            });
+        }
+        function BrowsePage() {
+            document.querySelector(".viewPanel").setAttribute("src", document.querySelector(".urlBox").value);
+        }
+    </script>
+}
