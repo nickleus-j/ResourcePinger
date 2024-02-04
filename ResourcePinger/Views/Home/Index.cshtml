@@ -17,8 +17,8 @@
             <legend>
                 Ping Results
             </legend>
-            <ul class="result-list">
-            </ul>
+            <dl class="result-list">
+            </dl>
         </fieldset>
     </div>
     <div class="col-xs-12 col-sm-6 ">
@@ -36,6 +36,19 @@
             anchor.setAttribute("class", "console");
             return anchor;
         }
+        function createPingListItem(pingStatus) {
+            let dtElem = document.createElement("dt"), list = document.querySelector("dl.result-list");
+            let link = createLink(document.querySelector(".urlBox").value);
+            let statusDd = document.createElement("dd"), timeDd=document.createElement("dd");
+            statusDd.textContent = " Status: " + pingStatus.isSuccessful;
+            timeDd.textContent = " at " + GenerateStandardDate(pingStatus.returnedAtUtc);
+            statusDd.setAttribute("class", "status-result");
+            timeDd.setAttribute("class", "utc-result");
+            dtElem.append(link);
+            list.append(dtElem);
+            list.append(statusDd);
+            list.append(timeDd);
+        }
         function pingUri() {
             var caller = new Service();
             if (document.querySelector(".control")) {
@@ -44,14 +57,10 @@
             caller.get("/Home/Check?q=" + document.querySelector(".urlBox").value, function (data) {
 
                 document.querySelector(".error-msg").replaceChildren();
-                let item = document.createElement("li"), list = document.querySelector("ul.result-list");
-                let spanElem = document.createElement("span");
-                spanElem.textContent = " Status: " + data.isSuccessful + " at " + data.returnedAtUtc;
-                item.append(createLink(document.querySelector(".urlBox").value));
-                item.append(spanElem);
-                list.appendChild(item);
+                createPingListItem(data);
             }, function (e) {
                 document.querySelector(".error-msg").innerHTML = ("Ping Not Sucessful");
+                console.error(e);
             });
         }
         function BrowsePage() {

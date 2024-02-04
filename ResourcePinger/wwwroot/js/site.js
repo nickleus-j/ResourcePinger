@@ -54,3 +54,10 @@ var Service = (function () {
     }
     return Service;
 }());
+function GenerateStandardDate(dateString) {
+    let myDate = new Date(dateString);
+    let output = myDate.getDate() + "-" + (myDate.getMonth() + 1)
+        + "-" + myDate.getFullYear() + " "
+        + myDate.getHours() + ":" + myDate.getMinutes() + ":"+myDate.getSeconds();
+    return output;
+}
