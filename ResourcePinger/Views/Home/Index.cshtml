@@ -7,7 +7,7 @@
     <p>Ping a website</p>
 </div>
 <div class="row">
-    <div class="col-xs-12 col-sm-6 col-lg-4">
+    <div class="col-xs-12 col-sm-6">
         <input class="urlBox form-control" placeholder="URL here"/>
         <br/>
         <a class="btn btn-info" onclick="pingUri()">Ping</a> |
@@ -21,7 +21,7 @@
             </ul>
         </fieldset>
     </div>
-    <div class="col-xs-12 col-sm-6 col-lg-4">
+    <div class="col-xs-12 col-sm-6 ">
         <embed class="viewPanel" />
     </div>
 </div>
@@ -29,6 +29,13 @@
 
 @section Scripts {
     <script>
+        function createLink(hrefValue){
+            let anchor = document.createElement("a");
+            anchor.setAttribute("href", hrefValue);
+            anchor.textContent = hrefValue;
+            anchor.setAttribute("class", "console");
+            return anchor;
+        }
         function pingUri() {
             var caller = new Service();
             if (document.querySelector(".control")) {
@@ -38,7 +45,10 @@
 
                 document.querySelector(".error-msg").replaceChildren();
                 let item = document.createElement("li"), list = document.querySelector("ul.result-list");
-                item.textContent = document.querySelector(".urlBox").value+" Status: " + data.isSuccessful + " at " + data.returnedAtUtc;
+                let spanElem = document.createElement("span");
+                spanElem.textContent = " Status: " + data.isSuccessful + " at " + data.returnedAtUtc;
+                item.append(createLink(document.querySelector(".urlBox").value));
+                item.append(spanElem);
                 list.appendChild(item);
             }, function (e) {
                 document.querySelector(".error-msg").innerHTML = ("Ping Not Sucessful");
