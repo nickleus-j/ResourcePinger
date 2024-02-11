@@ -32,6 +32,7 @@
         function createLink(hrefValue){
             let anchor = document.createElement("a");
             anchor.setAttribute("href", hrefValue);
+            anchor.setAttribute("target", "_blank");
             anchor.textContent = hrefValue;
             anchor.setAttribute("class", "console");
             return anchor;

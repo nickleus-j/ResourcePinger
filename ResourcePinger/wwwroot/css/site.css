@@ -23,3 +23,10 @@ body {
 .console {
     font-family: Consolas, monospace;
 }
+dl.result-list {
+    border: .08rem solid #989A99;
+    background: #fefffa;
+}
+dl.result-list dt{
+    border-top: .06rem solid #BABCBB;
+}
