@@ -26,6 +26,7 @@ body {
 dl.result-list {
     border: .08rem solid #989A99;
     background: #fefffa;
+    padding: 0.8em;
 }
 dl.result-list dt{
     border-top: .06rem solid #BABCBB;
