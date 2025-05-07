@@ -3,7 +3,7 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Hello !</h1>
     <p>Ping a website</p>
 </div>
 <div class="row">
@@ -41,14 +41,14 @@
             let dtElem = document.createElement("dt"), list = document.querySelector("dl.result-list");
             let link = createLink(document.querySelector(".urlBox").value);
             let statusDd = document.createElement("dd"), timeDd=document.createElement("dd");
-            statusDd.textContent = " Status: " + pingStatus.isSuccessful;
+            statusDd.textContent = " Ping Successful: " + pingStatus.isSuccessful;
             timeDd.textContent = " at " + GenerateStandardDate(pingStatus.isSuccessful ? pingStatus.returnedAtUtc : Date.now());
             statusDd.setAttribute("class", "status-result");
             timeDd.setAttribute("class", "utc-result");
             dtElem.append(link);
-            list.append(dtElem);
-            list.append(statusDd);
-            list.append(timeDd);
+            list.prepend(timeDd);
+            list.prepend(statusDd);
+            list.prepend(dtElem);
         }
         function pingUri() {
             var caller = new Service();
