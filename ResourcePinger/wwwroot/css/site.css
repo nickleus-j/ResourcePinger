@@ -24,7 +24,7 @@ body {
     font-family: Consolas, monospace;
 }
 dl.result-list {
-    border: .08rem solid #989A99;
+    border: .18rem solid #989A99;
     background: #fefffa;
     padding: 0.8em;
 }
