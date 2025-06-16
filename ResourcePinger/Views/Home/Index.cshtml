@@ -42,7 +42,7 @@
             let link = createLink(document.querySelector(".urlBox").value);
             let statusDd = document.createElement("dd"), timeDd=document.createElement("dd");
             statusDd.textContent = " Ping Successful: " + pingStatus.isSuccessful;
-            timeDd.textContent = " at " + GenerateStandardDate(pingStatus.isSuccessful ? pingStatus.returnedAtUtc : Date.now());
+            timeDd.textContent = " at " + GenerateStandardDate(pingStatus.isSuccessful ? pingStatus.returnedAtUtc : Date.now()) + " "+pingStatus.RoundtripTime;
             statusDd.setAttribute("class", "status-result");
             timeDd.setAttribute("class", "utc-result");
             dtElem.append(link);

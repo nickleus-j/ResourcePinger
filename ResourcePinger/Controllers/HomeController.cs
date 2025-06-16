@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ResourcePinger.Models;
+using System;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 
@@ -22,17 +23,20 @@ namespace ResourcePinger.Controllers
 			PingStatus pingStatus = new PingStatus();
 			try
 			{
-                bool status = IsWebsiteUp_Ping(q).Result;
-                pingStatus.IsSuccessful = status;
-                if (status)
+                //bool status = IsWebsiteUp_Ping(q).Result;
+				var status= IsWebsiteUp(q).Result;
+                pingStatus.IsSuccessful = status.Status == IPStatus.Success;
+                if (pingStatus.IsSuccessful)
                 {
                     pingStatus.ReturnedAtUtc = DateTime.UtcNow;
+					pingStatus.RoundtripTime = DateTime.UtcNow.Ticks;
                 }
 			}
 			catch
 			{
 				pingStatus.IsSuccessful = false;
                 pingStatus.ReturnedAtUtc = DateTime.UtcNow;
+				pingStatus.RoundtripTime = 0;
             }
 			
 			return Json(pingStatus);
@@ -44,7 +48,7 @@ namespace ResourcePinger.Controllers
 
 		public IActionResult Privacy()
 		{
-			return View();
+            return View(IsWebsiteUp_Ping("localhost").Result);
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -58,7 +62,17 @@ namespace ResourcePinger.Controllers
 			var hostName = new Uri(url).Host;
 
 			PingReply result = await ping.SendPingAsync(hostName);
+
 			return result.Status == IPStatus.Success;
 		}
-	}
+        private async Task<PingReply> IsWebsiteUp(string url)
+        {
+            Ping ping = new Ping();
+            var hostName = new Uri(url).Host;
+
+            PingReply result = await ping.SendPingAsync(hostName);
+
+			return result;
+        }
+    }
 }
