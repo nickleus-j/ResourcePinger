@@ -11,7 +11,7 @@
         <input class="urlBox form-control" placeholder="URL here"/>
         <br/>
         <a class="btn btn-info" onclick="pingUri()">Ping</a> |
-        <a class="btn btn-secondary" onclick="BrowsePage()">View URL</a>
+        <a class="btn btn-info" onclick="getQr()">Generate QR</a>
         <p class="error-msg"></p>
         <fieldset>
             <legend>
@@ -21,7 +21,7 @@
             </dl>
         </fieldset>
     </div>
-    <div class="col-xs-12 col-sm-6 ">
+    <div class="col-xs-12 col-sm-6 contentPanel">
         <embed class="viewPanel" />
     </div>
 </div>
@@ -66,6 +66,20 @@
         }
         function BrowsePage() {
             document.querySelector(".viewPanel").setAttribute("src", document.querySelector(".urlBox").value);
+        }
+        function getQr() {
+            var caller = new Service();
+            if (document.querySelector(".control")) {
+                return;
+            }
+            caller.get("/Home/Qr?q=" + document.querySelector(".urlBox").value, function (data) {
+
+                document.querySelector(".error-msg").replaceChildren();
+                document.querySelector(".contentPanel").innerHTML=data.svg;
+            }, function (e) {
+                document.querySelector(".error-msg").innerHTML = ("Generation Not Sucessful "+e);
+                console.error(e);
+            });
         }
     </script>
 }

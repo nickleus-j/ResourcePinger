@@ -3,6 +3,7 @@ using ResourcePinger.Models;
 using System;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
+using Pinger.Util;
 
 namespace ResourcePinger.Controllers
 {
@@ -50,8 +51,15 @@ namespace ResourcePinger.Controllers
 		{
             return View(IsWebsiteUp_Ping("localhost").Result);
 		}
-
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Qr(string q)
+        {
+            var svgString = QrUtil.GetQrSvgOfUrl(q,10);
+			Dictionary<string, string> result=new Dictionary<string, string>();
+			result.Add("svg",svgString);
+            result.Add("url", q);
+			return Json(result);
+        }
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
