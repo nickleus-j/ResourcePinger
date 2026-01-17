@@ -49,7 +49,7 @@ namespace ResourcePinger.Controllers
 
 		public IActionResult Privacy()
 		{
-            return View(IsWebsiteUp_Ping("localhost").Result);
+            return View(); 
 		}
         public IActionResult Qr(string q)
         {
